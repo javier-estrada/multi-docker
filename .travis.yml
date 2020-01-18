@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t javo/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true javo/react-test npm test
+
+after_success:
+  - docker build -t javo/multi-client ./client
+  - docker build -t javo/multi-nginx ./nginx
+  - docker build -t javo/multi-serve ./server
+  - docker build -t javo/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those image and push them to docker
+  - docker push javo/multi-client
+  - docker push javo/multi-nginx
+  - docker push javo/multi-server
+  - docker push javo/multi-worker
