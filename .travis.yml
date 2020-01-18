@@ -10,14 +10,14 @@ script:
   - docker run -e CI=true javo/react-test npm test
 
 after_success:
-  - docker build -t javo/multi-client ./client
-  - docker build -t javo/multi-nginx ./nginx
-  - docker build -t javo/multi-serve ./server
-  - docker build -t javo/multi-worker ./worker
+  - docker build -t javonexas/multi-client ./client
+  - docker build -t javonexas/multi-nginx ./nginx
+  - docker build -t javonexas/multi-serve ./server
+  - docker build -t javonexas/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those image and push them to docker
-  - docker push javo/multi-client
-  - docker push javo/multi-nginx
-  - docker push javo/multi-server
-  - docker push javo/multi-worker
+  - docker push javonexas/multi-client
+  - docker push javonexas/multi-nginx
+  - docker push javonexas/multi-server
+  - docker push javonexas/multi-worker
